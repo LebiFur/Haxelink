@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haxelink.Example", "Haxelin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haxelink.DeadCellsTest", "Haxelink.DeadCellsTest\Haxelink.DeadCellsTest.csproj", "{E64808FE-D655-4358-9F62-BBD9872CCFFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haxelink.DeadCellsInfiniteJumps", "Haxelink.DeadCellsInfiniteJumps\Haxelink.DeadCellsInfiniteJumps.csproj", "{5DB91931-284C-4BDE-BDFD-153E933C3A3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
