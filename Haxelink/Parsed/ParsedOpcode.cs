@@ -75,6 +75,11 @@
         public static ArgumentEnumConstruct FromRaw(ParsedBytecode parsedBytecode, Bytecode bytecode, int value) => new(value);
     }
 
+    public class ArgumentBytes(byte[] value) : OpcodeArgument<byte[]>(value), IParsedOpcodeArgument<ArgumentBytes>
+    {
+        public static ArgumentBytes FromRaw(ParsedBytecode parsedBytecode, Bytecode bytecode, int value) => new((byte[])bytecode.BytesPool![value].Clone());
+    }
+
     public abstract class ParsedOpcode(OpcodeType? type, params OpcodeArgument[] arguments)
     {
         public OpcodeArgument[] Arguments { get; } = arguments;
@@ -88,7 +93,7 @@
                 OpcodeType.Int => new ParsedOpcodeInt(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0]), ArgumentInt.FromRaw(parsedBytecode, bytecode, opcode.Args[1])),
                 OpcodeType.Float => new ParsedOpcodeFloat(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0]), ArgumentFloat.FromRaw(parsedBytecode, bytecode, opcode.Args[1])),
                 OpcodeType.Bool => new ParsedOpcodeBool(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0]), ArgumentBool.FromRaw(parsedBytecode, bytecode, opcode.Args[1])),
-                //case OpcodeType.Bytes:
+                OpcodeType.Bytes => new ParsedOpcodeBytes(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0]), ArgumentBytes.FromRaw(parsedBytecode, bytecode, opcode.Args[1])),
                 OpcodeType.String => new ParsedOpcodeString(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0]), ArgumentString.FromRaw(parsedBytecode, bytecode, opcode.Args[1])),
                 OpcodeType.Null => new ParsedOpcodeNull(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0])),
                 OpcodeType.Add => new ParsedOpcodeAdd(ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[0]), ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[1]), ArgumentRegister.FromRaw(parsedBytecode, bytecode, opcode.Args[2])),
@@ -190,7 +195,7 @@
     public class ParsedOpcodeInt(ArgumentRegister dst, ArgumentInt val) : ParsedOpcode(OpcodeType.Int, dst, val);
     public class ParsedOpcodeFloat(ArgumentRegister dst, ArgumentFloat val) : ParsedOpcode(OpcodeType.Float, dst, val);
     public class ParsedOpcodeBool(ArgumentRegister dst, ArgumentBool val) : ParsedOpcode(OpcodeType.Bool, dst, val);
-    //bytes
+    public class ParsedOpcodeBytes(ArgumentRegister dst, ArgumentBytes val) : ParsedOpcode(OpcodeType.Bytes, dst, val);
     public class ParsedOpcodeString(ArgumentRegister dst, ArgumentString val) : ParsedOpcode(OpcodeType.String, dst, val);
     public class ParsedOpcodeNull(ArgumentRegister dst) : ParsedOpcode(OpcodeType.Null, dst);
     public class ParsedOpcodeAdd(ArgumentRegister dst, ArgumentRegister a, ArgumentRegister b) : ParsedOpcode(OpcodeType.Add, dst, a, b);

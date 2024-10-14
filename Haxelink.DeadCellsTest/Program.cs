@@ -1,7 +1,7 @@
 ﻿/*
 keep in mind that in the current state of haxelink
 dead cells bytecode when parsed and reconstucted
-when technically working will crash soon after steam init
+while technically working will crash soon after steam init
 due to a deserialization issue which I have no idea what causes
 
 this csproj alters the deserializing function
@@ -17,8 +17,8 @@ namespace Haxelink.DeadCellsTest
     internal class Program
     {
         //change these paths, file extension doesn't matter
-        private const string originalBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD\\LATEST.dat";
-        private const string outputBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD\\OUTPUT.dat";
+        private const string originalBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD2\\LATEST.dat";
+        private const string outputBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD2\\OUTPUT.dat";
 
         private static void Log(string message)
         {
@@ -63,7 +63,7 @@ namespace Haxelink.DeadCellsTest
 
             constructedBytecode.WriteToFile(outputBytecode);
 
-            Log($"Done");
+            Log("Done");
         }
     }
 }

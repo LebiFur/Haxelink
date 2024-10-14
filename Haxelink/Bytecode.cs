@@ -12,6 +12,7 @@ namespace Haxelink
         public int[] IntsPool { get; }
         public double[] FloatsPool { get; }
         public string[] StringsPool { get; }
+        public byte[][]? BytesPool { get; }
         public string[]? DebugFiles { get; }
         public HashlinkType[] TypesPool { get; }
         public int[] GlobalsPool { get; }
@@ -37,6 +38,7 @@ namespace Haxelink
             List<string> strings = [];
             List<HashlinkFunction> functions = [];
             List<int> globals = [];
+            List<byte[]>? bytes = Version >= 5 ? [] : null;
 
             int functionIndex = 0;
 
@@ -107,6 +109,7 @@ namespace Haxelink
             ConcurrentBag<int> tempInts = [];
             ConcurrentBag<double> tempFloats = [];
             ConcurrentBag<string> tempStrings = [];
+            ConcurrentBag<byte[]>? tempBytes = Version >= 5 ? [] : null;
 
             Perpendicular.ForEach(FunctionsPool, hashlinkMethod =>
             {
@@ -117,6 +120,7 @@ namespace Haxelink
                         if (argument.GetType() == typeof(ArgumentInt)) tempInts.Add(((ArgumentInt)argument).Value);
                         else if (argument.GetType() == typeof(ArgumentFloat)) tempFloats.Add(((ArgumentFloat)argument).Value);
                         else if (argument.GetType() == typeof(ArgumentString)) tempStrings.Add(((ArgumentString)argument).Value);
+                        else if (argument.GetType() == typeof(ArgumentBytes)) tempBytes!.Add(((ArgumentBytes)argument).Value);
                     }
                 }
             });
@@ -124,6 +128,7 @@ namespace Haxelink
             foreach (int item in tempInts) if (!ints.Contains(item)) ints.Add(item);
             foreach (double item in tempFloats) if (!floats.Contains(item)) floats.Add(item);
             foreach (string item in tempStrings) if (!strings.Contains(item)) strings.Add(item);
+            if (Version >= 5) foreach (byte[] item in tempBytes!) if (!bytes!.Any(x => x.SequenceEqual(item))) bytes!.Add(item);
 
             Perpendicular.ForEach(FunctionsPool, hashlinkMethod =>
             {
@@ -143,12 +148,15 @@ namespace Haxelink
                     else if (x.GetType() == typeof(ArgumentInlineInt)) return ((ArgumentInlineInt)x).Value;
                     else if (x.GetType() == typeof(ArgumentGlobal)) return globalsLookup[((ArgumentGlobal)x).Value];
                     else if (x.GetType() == typeof(ArgumentEnumConstruct)) return ((ArgumentEnumConstruct)x).Value;
+                    else if (x.GetType() == typeof(ArgumentBytes)) return bytes!.TakeWhile(y => !y.SequenceEqual(((ArgumentBytes)x).Value)).Count();
                     else throw new Exception($"Cannot construct opcode argument {x}");
                 });
             });
 
             IntsPool = [.. ints];
             FloatsPool = [.. floats];
+            if (Version >= 5) BytesPool = [.. bytes];
+
             EntryPointIndex = GetFunctionIndex(parsedBytecode.EntryPoint);
 
             foreach (HashlinkType type in TypesPool)
@@ -200,6 +208,7 @@ namespace Haxelink
             WriteVarInt(IntsPool.Length);
             WriteVarInt(FloatsPool.Length);
             WriteVarInt(StringsPool.Length);
+            if (Version >= 5) WriteVarInt(BytesPool!.Length);
             WriteVarInt(TypesPool.Length);
             WriteVarInt(GlobalsPool.Length);
             WriteVarInt(NativesPool.Length);
@@ -211,6 +220,7 @@ namespace Haxelink
             foreach (double value in FloatsPool) data.AddRange(BitConverter.GetBytes(value));
 
             WriteStrings(StringsPool);
+            if (Version >= 5) WriteBytes(BytesPool!);
 
             if (HasDebugInfo)
             {
@@ -231,6 +241,21 @@ namespace Haxelink
             foreach (HashlinkConstant constant in ConstantsPool) WriteConstant(constant);
 
             File.WriteAllBytes(path, [.. data]);
+        }
+
+        private void WriteBytes(byte[][] pool)
+        {
+            data.AddRange(BitConverter.GetBytes(pool.Sum(x => x.Length)));
+
+            foreach (byte[] bytes in pool) data.AddRange(bytes);
+
+            int pos = 0;
+
+            foreach (byte[] bytes in pool)
+            {
+                WriteVarInt(pos);
+                pos += bytes.Length;
+            }
         }
 
         private void WriteVarInt(int value)
@@ -513,13 +538,14 @@ namespace Haxelink
             if (Encoding.ASCII.GetString(ReadByteArray(3)) != "HLB") throw new Exception("Incorrect hashlink bytecode file");
 
             Version = ReadByte();
-            if (Version != 4) throw new Exception("Unsupported hashlink bytecode version");
+            if (Version < 4 && Version > 5) throw new Exception("Unsupported hashlink bytecode version");
 
             HasDebugInfo = ReadByte() > 0;
 
             IntsPool = new int[ReadVarInt()];
             FloatsPool = new double[ReadVarInt()];
             StringsPool = new string[ReadVarInt()];
+            if (Version >= 5) BytesPool = new byte[ReadVarInt()][];
             TypesPool = new HashlinkType[ReadVarInt()];
             GlobalsPool = new int[ReadVarInt()];
             NativesPool = new HashlinkNative[ReadVarInt()];
@@ -531,6 +557,7 @@ namespace Haxelink
             for (int i = 0; i < FloatsPool.Length; i++) FloatsPool[i] = BitConverter.ToDouble(ReadByteArray(8));
 
             ReadStrings(StringsPool);
+            if (Version >= 5) ReadBytes(BytesPool!);
 
             if (HasDebugInfo)
             {
@@ -543,6 +570,22 @@ namespace Haxelink
             for (int i = 0; i < NativesPool.Length; i++) NativesPool[i] = new(ReadVarInt(), ReadVarInt(), ReadVarInt(), ReadVarInt());
             for (int i = 0; i < FunctionsPool.Length; i++) FunctionsPool[i] = ReadFunction();
             for (int i = 0; i < ConstantsPool.Length; i++) ConstantsPool[i] = ReadConstant();
+        }
+        
+        private void ReadBytes(byte[][] pool)
+        {
+            byte[] bytesData = ReadByteArray(BitConverter.ToInt32(ReadByteArray(4)));
+
+            int pos = ReadVarInt();
+
+            for (int i = 0; i < pool.Length; i++)
+            {
+                int end = i == pool.Length - 1 ? bytesData.Length : ReadVarInt();
+
+                pool[i] = bytesData[pos..end];
+
+                pos = end;
+            }
         }
         
         private HashlinkConstant ReadConstant()

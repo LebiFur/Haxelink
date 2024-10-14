@@ -11,8 +11,8 @@ namespace Haxelink.DeadCellsInfiniteJumps
     internal class Program
     {
         //change these paths, file extension doesn't matter
-        private const string originalBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD\\LATEST.dat";
-        private const string outputBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD\\OUTPUT.dat";
+        private const string originalBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD2\\LATEST.dat";
+        private const string outputBytecode = "D:\\steam\\steamapps\\common\\Dead Cells MOD2\\OUTPUT.dat";
 
         private static void Log(string message)
         {
@@ -37,7 +37,7 @@ namespace Haxelink.DeadCellsInfiniteJumps
             ParsedBytecode parsedBytecode = new(bytecode, Log);
 
             //find the get_airJumps original function index
-            //you could also use a fixed index which is 34961
+            //you could also use a fixed index
             //but this way it's a lot clearer and foolproof
             int functionIndex = parsedBytecode.Functions.First(x => x.Name == "get_airJumps").HashlinkFunction.Index;
 
@@ -52,7 +52,7 @@ namespace Haxelink.DeadCellsInfiniteJumps
 
             bytecode.WriteToFile(outputBytecode);
 
-            Log($"Done");
+            Log("Done");
         }
     }
 }
