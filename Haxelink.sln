@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haxelink", "Haxelink\Haxeli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haxelink.Example", "Haxelink.Example\Haxelink.Example.csproj", "{FE840A9B-EB44-41F3-9597-A5658F6CCDFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haxelink.DeadCellsTest", "Haxelink.DeadCellsTest\Haxelink.DeadCellsTest.csproj", "{E64808FE-D655-4358-9F62-BBD9872CCFFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Haxelink.Cli", "Haxelink.Cli\Haxelink.Cli.csproj", "{F7AC5C98-0315-425D-8A9D-FA3A41D2FEF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haxelink.DeadCellsInfiniteJumps", "Haxelink.DeadCellsInfiniteJumps\Haxelink.DeadCellsInfiniteJumps.csproj", "{5DB91931-284C-4BDE-BDFD-153E933C3A3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadCellsInfiniteJumps", "DeadCellsInfiniteJumps\DeadCellsInfiniteJumps.csproj", "{1667474B-27F1-4566-8B86-D385FBF5FAAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeadCellsUnserializerOutput", "DeadCellsUnserializerOutput\DeadCellsUnserializerOutput.csproj", "{682EC0FB-C178-4506-84DD-88668439D814}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patch Examples", "Patch Examples", "{1091DAC9-2083-4417-9176-3840AD90B8CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,17 +29,25 @@ Global
 		{FE840A9B-EB44-41F3-9597-A5658F6CCDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE840A9B-EB44-41F3-9597-A5658F6CCDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE840A9B-EB44-41F3-9597-A5658F6CCDFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E64808FE-D655-4358-9F62-BBD9872CCFFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DB91931-284C-4BDE-BDFD-153E933C3A3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AC5C98-0315-425D-8A9D-FA3A41D2FEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AC5C98-0315-425D-8A9D-FA3A41D2FEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AC5C98-0315-425D-8A9D-FA3A41D2FEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AC5C98-0315-425D-8A9D-FA3A41D2FEF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1667474B-27F1-4566-8B86-D385FBF5FAAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1667474B-27F1-4566-8B86-D385FBF5FAAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1667474B-27F1-4566-8B86-D385FBF5FAAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1667474B-27F1-4566-8B86-D385FBF5FAAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{682EC0FB-C178-4506-84DD-88668439D814}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{682EC0FB-C178-4506-84DD-88668439D814}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{682EC0FB-C178-4506-84DD-88668439D814}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{682EC0FB-C178-4506-84DD-88668439D814}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1667474B-27F1-4566-8B86-D385FBF5FAAC} = {1091DAC9-2083-4417-9176-3840AD90B8CB}
+		{682EC0FB-C178-4506-84DD-88668439D814} = {1091DAC9-2083-4417-9176-3840AD90B8CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BA7797A-607B-44E2-AAD2-54DF5722054F}
