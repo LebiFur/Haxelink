@@ -6,7 +6,7 @@ Hashlink bytecode parser and patcher
 
 ### Installation
 
-[Download for windows](https://github.com/LebiFur/Haxelink/releases/tag/v0.1.0-alpha), requires [.NET 8.0 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-8.0.10-windows-x64-installer).
+[Download for windows](https://github.com/LebiFur/Haxelink/releases/latest), requires [.NET 8.0 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-8.0.10-windows-x64-installer).
 
 It also contains 2 example patches for dead cells:
 - InfiniteJumps - gives you infinite jumps, requires -r flag
