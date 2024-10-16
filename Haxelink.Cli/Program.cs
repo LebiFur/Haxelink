@@ -68,7 +68,7 @@ namespace Haxelink.Cli
             return skip;
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             args = [.. args.Where(x => x.Length > 0 && !char.IsWhiteSpace(x[0]))];
 

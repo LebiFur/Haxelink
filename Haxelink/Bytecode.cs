@@ -240,6 +240,10 @@ namespace Haxelink
             foreach (HashlinkMethod function in FunctionsPool) WriteFunction(function);
             foreach (HashlinkConstant constant in ConstantsPool) WriteConstant(constant);
 
+            string? dirToCreate = Path.GetDirectoryName(path);
+
+            if (dirToCreate != null) Directory.CreateDirectory(dirToCreate);
+
             File.WriteAllBytes(path, [.. data]);
         }
 
